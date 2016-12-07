@@ -1,6 +1,0 @@
-spring:
-  data:
-    rest:
-      base-path: /api
-      max-page-size: 1
-      default-page-size: 1

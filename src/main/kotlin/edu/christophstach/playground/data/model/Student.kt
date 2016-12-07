@@ -10,13 +10,9 @@
 
 package edu.christophstach.playground.data.model
 
-import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonManagedReference
-import edu.christophstach.playground.controller.StudentController
-import org.springframework.hateoas.Identifiable
-import org.springframework.hateoas.Link
-import org.springframework.hateoas.ResourceSupport
-import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
+import java.util.*
 import javax.persistence.*
 
 /**
@@ -27,12 +23,13 @@ import javax.persistence.*
 class Student() {
     @Id
     @GeneratedValue
-    val id: Long? = 0
+    val id: UUID? = null
 
-    var mn: Long = 0
-    var firstName: String = ""
-    var lastName: String = ""
+    var mn: Long? = 0
+    var firstName: String? = ""
+    var lastName: String? = ""
 
+    @JsonIgnore
     @JsonManagedReference
     @ManyToMany(cascade = arrayOf(CascadeType.ALL))
     @OrderColumn(name = "pos")
@@ -43,16 +40,10 @@ class Student() {
     )
     var courses: MutableSet<Course> = mutableSetOf()
 
-    @JsonCreator
     constructor(mn: Long, firstName: String, lastName: String) : this() {
         this.mn = mn
         this.firstName = firstName
         this.lastName = lastName
-    }
-
-    init {
-        //add(linkTo(StudentController::class).slash(this.getId()).withSelfRel())
-        //add(linkTo(StudentController::class).withRel("all"))
     }
 
     override fun toString(): String {

@@ -10,9 +10,11 @@
 
 package edu.christophstach.playground.data.service
 
+import edu.christophstach.playground.data.model.Student
 import edu.christophstach.playground.data.repository.StudentRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.util.*
 
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
@@ -23,6 +25,33 @@ import org.springframework.stereotype.Service
 class StudentService(val studentRepository: StudentRepository) {
     fun findAll() = studentRepository.findAll()
     fun findAll(pageable: Pageable) = studentRepository.findAll(pageable)
-    fun findOne(id: Long) = studentRepository.findOne(id)
+    fun findOne(id: UUID) = studentRepository.findOne(id)
+
+    fun create(student: Student): Student {
+        if (student.id == null) {
+            return studentRepository.save(student)
+        } else {
+            throw IllegalArgumentException("Student id must be null")
+        }
+    }
+
+    fun update(id: UUID, student: Student): Student {
+        if (studentRepository.findOne(id) != null) {
+            return studentRepository.save(student)
+        } else {
+            throw IllegalArgumentException("Student does not exists")
+        }
+    }
+
+    fun delete(id: UUID): Student {
+        val student: Student? = studentRepository.findOne(id)
+
+        if (student != null) {
+            studentRepository.delete(student)
+            return student
+        } else {
+            throw IllegalArgumentException("Student does not exist")
+        }
+    }
 }
 

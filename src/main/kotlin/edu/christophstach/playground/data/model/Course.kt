@@ -11,7 +11,7 @@
 package edu.christophstach.playground.data.model
 
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonCreator
+import java.util.*
 import javax.persistence.*
 
 /**
@@ -22,7 +22,7 @@ import javax.persistence.*
 class Course() {
     @Id
     @GeneratedValue
-    val id: Long? = 0
+    val id: UUID? = null
 
     var title: String = ""
     var description: String = ""
@@ -32,14 +32,9 @@ class Course() {
     @OrderColumn(name = "pos")
     var students: MutableSet<Student> = mutableSetOf()
 
-    @JsonCreator
     constructor(title: String, description: String) : this() {
         this.title = title
         this.description = description
-    }
-
-    init {
-
     }
 
     override fun toString(): String {

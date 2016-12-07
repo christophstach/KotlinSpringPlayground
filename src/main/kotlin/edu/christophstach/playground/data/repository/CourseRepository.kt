@@ -12,9 +12,10 @@ package edu.christophstach.playground.data.repository
 
 import edu.christophstach.playground.data.model.Course
 import org.springframework.data.repository.PagingAndSortingRepository
+import java.util.*
 
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
  * @since 12/2/16
  */
-interface CourseRepository : PagingAndSortingRepository<Course, Long>
+interface CourseRepository : PagingAndSortingRepository<Course, UUID>

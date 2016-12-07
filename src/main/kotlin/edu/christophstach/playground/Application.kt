@@ -26,17 +26,35 @@ open class DemoApplication {
             studentRepository: StudentRepository,
             courseRepository: CourseRepository
     ) = CommandLineRunner {
-        val c = Course("Programmieren 1", "Variablen, Schleifen, Arrays, Sortierverfahren")
+        val c1 = Course("Programmieren 1", "Variablen, Schleifen, Arrays, Sortierverfahren")
+        val c2 = Course("Programmieren 2", "Objektorientierte Programmierung")
+        val c3 = Course("Mathe 1", "Ebenen, Vektoren und Matrizen")
+        val c4 = Course("Mathe 2", "Folgen und Reihenen, Differentialrechnung, Integralrechnung")
+
+
         val s1 = Student(555912, "Christoph", "Stach")
         val s2 = Student(555913, "Laila", "Westphal")
+        val s3 = Student(555914, "Justin", "Sprenger")
+        val s4 = Student(555915, "Miles", "Lorenz")
+        val s5 = Student(555916, "Steffe", "Exler")
+        val s6 = Student(555917, "Laura", "Harters")
 
-        s2.courses.add(c)
+        s2.courses.add(c1)
+        s5.courses.add(c2)
+        s5.courses.add(c3)
+        s5.courses.add(c4)
 
-        studentRepository.deleteAll()
-        courseRepository.deleteAll()
+        // studentRepository.deleteAll()
+        // courseRepository.deleteAll()
 
         studentRepository.save(s1)
         studentRepository.save(s2)
+        studentRepository.save(s3)
+        studentRepository.save(s4)
+        studentRepository.save(s5)
+        studentRepository.save(s6)
+
+
     }
 }
 

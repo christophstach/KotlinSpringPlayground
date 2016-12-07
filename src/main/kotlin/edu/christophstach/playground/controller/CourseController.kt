@@ -13,32 +13,64 @@ package edu.christophstach.playground.controller
 import edu.christophstach.playground.data.model.Course
 import edu.christophstach.playground.data.service.CourseService
 import edu.christophstach.playground.hateoas.assembler.CourseResourceAssembler
+import edu.christophstach.playground.hateoas.resource.CourseResource
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PagedResourcesAssembler
-import org.springframework.hateoas.ResourceSupport
+import org.springframework.hateoas.ExposesResourceFor
+import org.springframework.hateoas.PagedResources
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
  * @since 12/2/16
  */
 @RestController
-@RequestMapping("/course", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE, "application/hal+json"))
+@RequestMapping("/course")
+@ExposesResourceFor(Course::class)
 class CourseController(
         val courseService: CourseService,
         val courseResourceAssembler: CourseResourceAssembler,
         val pagedResourcesAssembler: PagedResourcesAssembler<Course>
 ) {
 
-    @GetMapping()
-    fun findAll(pageable: Pageable): ResourceSupport {
+    @GetMapping(
+            produces = arrayOf("application/hal+json")
+    )
+    fun findAll(pageable: Pageable): PagedResources<CourseResource> {
         return pagedResourcesAssembler.toResource(courseService.findAll(pageable), courseResourceAssembler)
     }
 
-    @GetMapping("/{id}")
-    fun findOne(@PathVariable("id") id: Long) = courseResourceAssembler.toResource(courseService.findOne(id))
+    @GetMapping(
+            "/{id}",
+            produces = arrayOf("application/hal+json")
+    )
+    fun findOne(@PathVariable("id") id: UUID): CourseResource {
+        return courseResourceAssembler.toResource(courseService.findOne(id))
+    }
+
+    @PostMapping(
+            produces = arrayOf("application/hal+json"),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun create(@RequestBody course: Course): CourseResource {
+        return courseResourceAssembler.toResource(courseService.create(course))
+    }
+
+    @PutMapping(
+            produces = arrayOf("application/hal+json"),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun update(@PathVariable("id") id: UUID, @RequestBody course: Course): CourseResource {
+        return courseResourceAssembler.toResource(courseService.update(id, course))
+    }
+
+    @DeleteMapping(
+            "/{id}",
+            produces = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun delete(id: UUID): Course {
+        return courseService.delete(id)
+    }
 }

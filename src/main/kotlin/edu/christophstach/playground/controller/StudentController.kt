@@ -10,18 +10,18 @@
 
 package edu.christophstach.playground.controller
 
+import edu.christophstach.playground.data.model.Course
 import edu.christophstach.playground.data.model.Student
 import edu.christophstach.playground.data.service.StudentService
 import edu.christophstach.playground.hateoas.assembler.StudentResourceAssembler
+import edu.christophstach.playground.hateoas.resource.StudentResource
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.ExposesResourceFor
-import org.springframework.hateoas.ResourceSupport
+import org.springframework.hateoas.PagedResources
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 
 /**
@@ -29,41 +29,51 @@ import org.springframework.web.bind.annotation.RestController
  * @since 12/2/16
  */
 @RestController
-@ExposesResourceFor(Student::class)
-@RequestMapping("/student", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE, "application/hal+json"))
+@RequestMapping("/student")
+@ExposesResourceFor(Course::class)
 class StudentController(
         val studentService: StudentService,
         val studentResourceAssembler: StudentResourceAssembler,
         val pagedResourcesAssembler: PagedResourcesAssembler<Student>
 ) {
-    @GetMapping()
-    fun findAll(pageable: Pageable): ResourceSupport {
+    @GetMapping(
+            produces = arrayOf("application/hal+json")
+    )
+    fun findAll(pageable: Pageable): PagedResources<StudentResource> {
         return pagedResourcesAssembler.toResource(studentService.findAll(pageable), studentResourceAssembler)
     }
 
-    @GetMapping("/{id}")
-    fun findOne(@PathVariable("id") id: Long): ResourceSupport {
+    @GetMapping(
+            "/{id}",
+            produces = arrayOf("application/hal+json")
+    )
+    fun findOne(@PathVariable("id") id: UUID): StudentResource {
         return studentResourceAssembler.toResource(studentService.findOne(id))
     }
 
-
-    /**
-    @PostMapping("api/student")
-    fun create(): Student {
-    val student = Student(1, "Christoph", "Stach")
-
-    studentRepository.save(student)
-
-    return student
+    @PostMapping(
+            produces = arrayOf("application/hal+json"),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun create(@RequestBody student: Student): StudentResource {
+        return studentResourceAssembler.toResource(studentService.create(student))
     }
 
-    @PutMapping("api/student")
-    fun update(student: Student): Student {
-    return student
+    @PutMapping(
+            "/{id}",
+            produces = arrayOf("application/hal+json"),
+            consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun update(@PathVariable("id") id: UUID, @RequestBody student: Student): StudentResource {
+        return studentResourceAssembler.toResource(studentService.update(id, student))
     }
 
-    @DeleteMapping("api/student")
-    fun delete(student: Student): Student {
-    return student
-    }*/
+    @DeleteMapping(
+            "/{id}",
+            produces = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun delete(@PathVariable("id") id: UUID): Student {
+        return studentService.delete(id)
+    }
+
 }
