@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-open class DemoApplication {
+open class Application {
     @Bean
     open fun init(
             studentRepository: StudentRepository,
@@ -36,16 +36,13 @@ open class DemoApplication {
         val s2 = Student(555913, "Laila", "Westphal")
         val s3 = Student(555914, "Justin", "Sprenger")
         val s4 = Student(555915, "Miles", "Lorenz")
-        val s5 = Student(555916, "Steffe", "Exler")
+        val s5 = Student(555916, "Steffen", "Exler")
         val s6 = Student(555917, "Laura", "Harters")
 
         s2.courses.add(c1)
         s5.courses.add(c2)
         s5.courses.add(c3)
         s5.courses.add(c4)
-
-        // studentRepository.deleteAll()
-        // courseRepository.deleteAll()
 
         studentRepository.save(s1)
         studentRepository.save(s2)
@@ -59,5 +56,5 @@ open class DemoApplication {
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(DemoApplication::class.java, *args)
+    SpringApplication.run(Application::class.java, *args)
 }

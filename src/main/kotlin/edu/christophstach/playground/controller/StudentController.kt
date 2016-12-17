@@ -20,6 +20,7 @@ import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.ExposesResourceFor
 import org.springframework.hateoas.PagedResources
 import org.springframework.http.MediaType
+import org.springframework.hateoas.MediaTypes
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
@@ -37,7 +38,7 @@ class StudentController(
         val pagedResourcesAssembler: PagedResourcesAssembler<Student>
 ) {
     @GetMapping(
-            produces = arrayOf("application/hal+json")
+            produces = arrayOf(MediaTypes.HAL_JSON_VALUE)
     )
     fun findAll(pageable: Pageable): PagedResources<StudentResource> {
         return pagedResourcesAssembler.toResource(studentService.findAll(pageable), studentResourceAssembler)
@@ -45,14 +46,14 @@ class StudentController(
 
     @GetMapping(
             "/{id}",
-            produces = arrayOf("application/hal+json")
+            produces = arrayOf()
     )
     fun findOne(@PathVariable("id") id: UUID): StudentResource {
         return studentResourceAssembler.toResource(studentService.findOne(id))
     }
 
     @PostMapping(
-            produces = arrayOf("application/hal+json"),
+            produces = arrayOf(MediaTypes.HAL_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
     fun create(@RequestBody student: Student): StudentResource {
@@ -61,7 +62,7 @@ class StudentController(
 
     @PutMapping(
             "/{id}",
-            produces = arrayOf("application/hal+json"),
+            produces = arrayOf(MediaTypes.HAL_JSON_VALUE),
             consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
     fun update(@PathVariable("id") id: UUID, @RequestBody student: Student): StudentResource {

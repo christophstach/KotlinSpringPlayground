@@ -8,24 +8,40 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package edu.christophstach.playground.hateoas.resource
+package edu.christophstach.playground.controller
 
-import edu.christophstach.playground.controller.CourseController
-import edu.christophstach.playground.controller.StudentController
-import edu.christophstach.playground.data.model.Student
-import org.springframework.hateoas.ResourceSupport
-import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
+
+//import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.web.servlet.MockMvc
 
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
- * @since 12/4/16
+ * @since 12/7/16
  */
-class StudentResource(val _data: Student) : ResourceSupport() {
-    init {
-        add(linkTo(StudentController::class.java).slash(_data.id).withSelfRel())
+@RunWith(SpringRunner::class)
+@SpringBootTest
+@AutoConfigureMockMvc
+class CourseControllerTests() {
+    @Autowired
+    lateinit var mockMvc: MockMvc
 
-        _data.courses.map {
-            add(linkTo(CourseController::class.java).slash(it.id).withRel("courses"))
-        }
+    @Autowired
+    lateinit var controller: CourseController
+
+    @Test
+    fun contextLoads() {
+        assertThat(controller).isNotNull()
+    }
+
+    @Test
+    fun findAll() {
+
     }
 }

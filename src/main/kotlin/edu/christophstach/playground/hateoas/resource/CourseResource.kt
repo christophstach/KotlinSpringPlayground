@@ -20,12 +20,12 @@ import org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo
  * @author Christoph Stach - s0555912@htw-berlin.de
  * @since 12/4/16
  */
-class CourseResource(val data: Course) : ResourceSupport() {
+class CourseResource(val _data: Course) : ResourceSupport() {
     init {
-        add(linkTo(CourseController::class.java).slash(this.data.id).withSelfRel())
+        add(linkTo(CourseController::class.java).slash(_data.id).withSelfRel())
 
-        data.students.map {
-            add(linkTo(StudentController::class.java).slash(it.id).withRel("student"))
+        _data.students.map {
+            add(linkTo(StudentController::class.java).slash(it.id).withRel("students"))
         }
     }
 }
