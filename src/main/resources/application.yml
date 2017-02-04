@@ -1,0 +1,8 @@
+jwt:
+  header: Authorization
+  secret: mySecret
+  issuer: christophstach
+  expiration: 604800
+  route:
+    authentication:
+      path: auth

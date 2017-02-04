@@ -13,14 +13,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Meine Tolle Api</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+
+    <script src="index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.0.1/Rx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(() => {
+            const i = new index(jQuery, "http://127.0.0.1:8080");
+
+
+            $("#token").text(localStorage.getItem("jwtToken"));
+
+            $("#login").click(() => {
+                i.login().then(() => {
+                    $("#token").text(localStorage.getItem("jwtToken"));
+                });
+            });
+
+            $("#logout").click(() => {
+                i.logout().then(() => {
+                    $("#token").text(localStorage.getItem("jwtToken"));
+                });
+            });
+
+            $("#getCourses").click(() => {
+                i.getCourses().then(() => {
+
+                });
+            });
+
+            $("#getStudents").click(() => {
+                i.getStudents().then(() => {
+
+                });
+            });
+
+
+        });
+    </script>
 </head>
 <body>
 
-Hallo =)
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.0.1/Rx.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+
+
+<div class="container">
+    <h1>JWT Tokentester</h1>
+
+    <div>
+        JWT Token: <span id="token"></span> <br>
+        Expires: <span id="expires"></span>
+    </div>
+
+    <div>
+        <button id="login" class="btn btn-primary btn-md">Login</button>
+        <button id="logout" class="btn btn-default btn-md">Logout</button>
+        <button id="getCourses" class="btn btn-default btn-md">GetCourses</button>
+        <button id="getStudents" class="btn btn-default btn-md">GetStudents</button>
+    </div>
+
+    <div id="status"></div>
+</div>
+
+
 </body>
 </html>

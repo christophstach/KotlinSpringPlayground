@@ -24,6 +24,7 @@ class Course() {
     @GeneratedValue
     val id: UUID? = null
 
+
     var title: String = ""
     var description: String = ""
 

@@ -11,9 +11,8 @@
 package edu.christophstach.playground.data.model.security
 
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import java.util.*
+import javax.persistence.*
 import javax.validation.constraints.NotNull
 
 /**
@@ -24,13 +23,13 @@ import javax.validation.constraints.NotNull
 class Account() {
     @Id
     @GeneratedValue
-    val id: Long? = null
+    val id: UUID? = null
 
     @NotNull
-    var username: String = ""
+    var username: String? = ""
 
     @NotNull
-    var password: String = ""
+    var password: String? = ""
 
     @NotNull
     var enabled: Boolean = true
@@ -43,4 +42,8 @@ class Account() {
 
     @NotNull
     var crendentialsExpired: Boolean = false
+
+    //@ManyToOne
+    //@JoinColumn(name = "id")
+    //var role: Role? = null
 }

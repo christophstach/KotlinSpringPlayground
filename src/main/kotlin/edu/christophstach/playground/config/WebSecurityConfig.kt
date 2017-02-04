@@ -10,13 +10,14 @@
 
 package edu.christophstach.playground.config
 
+import edu.christophstach.playground.security.JwtAuthenticationTokenFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
 /**
@@ -24,8 +25,26 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @since 12/7/16
  */
 @Configuration
+@EnableWebSecurity
+open class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+    @Autowired
+    lateinit var tokenFilter: JwtAuthenticationTokenFilter
 
-open class OAuth2AuthorizationServerConfig {
+    override fun configure(http: HttpSecurity) {
+        http
+                .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter::class.java)
+                .authorizeRequests()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                ).permitAll()
+                .anyRequest().permitAll()
 
 
+    }
 }

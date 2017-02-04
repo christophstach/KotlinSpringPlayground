@@ -10,23 +10,25 @@
 
 package edu.christophstach.playground.security
 
-import javax.servlet.*
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import org.springframework.stereotype.Component
+import org.springframework.web.filter.OncePerRequestFilter
+import javax.servlet.FilterChain
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
 
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
  * @since 12/19/16
  */
+@Component
+class JwtAuthenticationTokenFilter : OncePerRequestFilter() {
+    val tokenHeader: String = "Authentication"
 
-class JwtTokenFilter : Filter {
-    override fun destroy() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
 
-    override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun init(filterConfig: FilterConfig?) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        filterChain.doFilter(request, response)
     }
 }

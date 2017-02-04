@@ -10,9 +10,25 @@
 
 package edu.christophstach.playground.data.model.security
 
+import java.util.*
+import javax.persistence.CascadeType
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.validation.constraints.NotNull
+
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
  * @since 12/5/16
  */
 class Role() {
+    @Id
+    @GeneratedValue
+    val id: UUID? = null
+
+    @NotNull
+    var name: String? = ""
+
+    //@OneToMany(mappedBy = "role", cascade = arrayOf(CascadeType.ALL))
+    //var accounts: MutableSet<Account> = mutableSetOf()
 }
