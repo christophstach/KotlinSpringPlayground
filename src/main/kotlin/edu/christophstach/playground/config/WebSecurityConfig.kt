@@ -10,9 +10,22 @@
 
 package edu.christophstach.playground.config
 
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Configuration
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+
+
 /**
  * @author Christoph Stach - s0555912@htw-berlin.de
  * @since 12/7/16
  */
-class WebSecurityConfiguration {
+@Configuration
+
+open class OAuth2AuthorizationServerConfig {
+
+
 }
